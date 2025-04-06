@@ -1,7 +1,7 @@
 package br.com.postechfiap.fiappagamentoservice.adapters;
 
-import br.com.postechfiap.restaurantreservationapi.interfaces.Adapter;
-import br.com.postechfiap.restaurantreservationapi.utils.JsonUtils;
+import br.com.postechfiap.fiappagamentoservice.interfaces.Adapter;
+import br.com.postechfiap.fiappagamentoservice.utils.JsonUtils;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

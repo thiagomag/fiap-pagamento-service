@@ -1,6 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.entities;
 
-import br.com.postechfiap.restaurantreservationapi.interfaces.Entity;
+import br.com.postechfiap.fiappagamentoservice.interfaces.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

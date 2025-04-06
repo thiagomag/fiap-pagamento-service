@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: fiap-pagamento-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pagamento_service}${DB_URL_PARAM:?ssl=false}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 30
+    jpa:
+      show-sql: true
+      hibernate:
+        generate-ddl: true
+        ddl-auto: update
+
+server:
+  port: 8080
