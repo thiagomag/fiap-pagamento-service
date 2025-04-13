@@ -12,10 +12,8 @@ public enum PaymentTypeEnum {
 	ACCOUNT_MONEY("account_money"),
 	TICKET("ticket"),
 	BANK_TRANSFER("bank_transfer"),
-	ATM("atm"),
 	CREDIT_CARD("credit_card"),
-	DEBIT_CARD("debit_card"),
-	PREPAID_CARD("prepaid_card");
+	DEBIT_CARD("debit_card");
 
 	private final String type;
 
