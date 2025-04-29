@@ -21,11 +21,15 @@ public class MercadoPagoCard extends BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "mercado_pago_customer_id", nullable = false)
     private MercadoPagoCustomer mercadoPagoCustomer;
+    @OneToOne
+    @JoinColumn(name = "perfil_pagamento_id", nullable = false)
+    private PerfilPagamento perfilPagamento;
     private Integer expirationMonth;
     private Integer expirationYear;
     private String firstSixDigits;
     private String lastFourDigits;
     private String cardholderName;
     private String mercadoPagoPaymentMethod;
+    private String token;
 
 }

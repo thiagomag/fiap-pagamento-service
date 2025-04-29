@@ -9,7 +9,7 @@ import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.Me
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoUpdateCustomerRequest;
 import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCustomer;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoCustomerRepository;
-import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarOuAtualizarMercadoPagoCustomerUseCase;
+import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarOuAtualizarClienteUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CriarOuAtualizarMercadoPagoCustomerUseCaseImpl implements CriarOuAtualizarMercadoPagoCustomerUseCase {
+public class CriarOuAtualizarClienteUseCaseImpl implements CriarOuAtualizarClienteUseCase {
 
     private final MercadoPagoClient mercadoPagoClient;
     private final MercadoPagoCustomerRepository mercadoPagoCustomerRepository;

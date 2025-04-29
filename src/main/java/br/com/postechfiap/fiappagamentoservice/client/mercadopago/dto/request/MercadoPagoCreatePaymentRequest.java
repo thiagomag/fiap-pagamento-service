@@ -26,10 +26,6 @@ public class MercadoPagoCreatePaymentRequest {
     private Boolean binaryMode;
     private Long campaignId;
     private Boolean capture;
-    private BigDecimal couponAmount;
-    private String couponCode;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-    private ZonedDateTime dateOfExpiration;
     private String description;
     private String externalReference;
     private Integer installments;

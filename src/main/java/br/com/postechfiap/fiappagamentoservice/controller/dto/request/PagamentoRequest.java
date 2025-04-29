@@ -1,11 +1,14 @@
 package br.com.postechfiap.fiappagamentoservice.controller.dto.request;
 
+import br.com.postechfiap.fiappagamentoservice.client.clienteService.dto.ClienteResponse;
 import br.com.postechfiap.fiappagamentoservice.enuns.MetodoPagamentoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.data.annotation.Transient;
 
 import java.math.BigDecimal;
 
@@ -33,6 +36,10 @@ public class PagamentoRequest {
     private MetodoPagamentoEnum metodoPagamento;
     @Schema(description = "Quantidade de Parcelas", example = "1")
     private Integer parcelas;
-    @Schema(description = "ID do perfil de pagamento", example = "1")
-    private Long perfilPagamentoId;
+    @Schema(description = "Request para perfil de pagamneto")
+    private PerfilPagamentoRequest perfilPagamento;
+
+    @JsonIgnore
+    @Transient
+    private ClienteResponse cliente;
 }

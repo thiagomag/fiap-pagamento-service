@@ -13,8 +13,8 @@ import java.util.Optional;
 @Component
 public class MercadoPagoCustomerAdapter extends AbstractAdapter<MercadoPagoCustomerResponse, MercadoPagoCustomer> {
 
-    public MercadoPagoCustomerAdapter(Class<MercadoPagoCustomer> mercadoPagoCustomerClass, JsonUtils jsonUtils) {
-        super(mercadoPagoCustomerClass, jsonUtils);
+    public MercadoPagoCustomerAdapter(JsonUtils jsonUtils) {
+        super(MercadoPagoCustomer.class, jsonUtils);
     }
 
     @Override

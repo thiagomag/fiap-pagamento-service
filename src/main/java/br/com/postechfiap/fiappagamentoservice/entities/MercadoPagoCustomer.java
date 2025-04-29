@@ -16,6 +16,8 @@ public class MercadoPagoCustomer extends BaseEntity<String> {
     public static final String TABLE_NAME = "mercado_pago_customer";
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "mercado_pago_customer_id_seq", allocationSize = 1)
     private String mercadoPagoCustomerId;
     private Long clienteId;
     private String firstName;

@@ -59,4 +59,7 @@ public interface MercadoPagoClient {
     @GetMapping("/v1/payments/{paymentId}/refunds/{refundId}")
     MercadoPagoRefundResponse getRefund(String paymentId, String refundId);
 
+    @PostMapping("/v1/card_tokens")
+    String generateCardToken(MercadoPagoCreateCardTokenRequest mercadoPagoCreateCardTokenRequest);
+
 }

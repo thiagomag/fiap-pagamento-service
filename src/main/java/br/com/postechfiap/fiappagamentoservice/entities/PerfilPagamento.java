@@ -21,7 +21,7 @@ public class PerfilPagamento extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "pagamento_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "perfil_pagamento_id_seq", allocationSize = 1)
     private Long id;
     private Long clienteId;
     private StatusBasicoEnum status;
@@ -30,6 +30,5 @@ public class PerfilPagamento extends BaseEntity<Long> {
     private String ultimosNumerosCartao;
     private String nomeTitularCartao;
     private LocalDate dataValidade;
-    private String tokenCartao;
     private Boolean cartaoPrincipal;
 }

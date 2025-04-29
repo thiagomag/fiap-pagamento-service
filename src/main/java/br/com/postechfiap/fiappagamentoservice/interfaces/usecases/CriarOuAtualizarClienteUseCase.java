@@ -4,5 +4,5 @@ import br.com.postechfiap.fiappagamentoservice.client.clienteService.dto.Cliente
 import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCustomer;
 import br.com.postechfiap.fiappagamentoservice.interfaces.UseCase;
 
-public interface CriarOuAtualizarMercadoPagoCustomerUseCase extends UseCase<ClienteResponse, MercadoPagoCustomer> {
+public interface CriarOuAtualizarClienteUseCase extends UseCase<ClienteResponse, MercadoPagoCustomer> {
 }
