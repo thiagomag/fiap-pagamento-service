@@ -10,7 +10,7 @@ import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.Me
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PerfilPagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCard;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarMercadoPagoCardUseCase;
-import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.CriarMercadoPagoCard;
+import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.PagamentoContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +23,14 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
 
 
     @Override
-    public MercadoPagoCard execute(CriarMercadoPagoCard entry) {
-        final var customerResponse = entry.getClienteResponse();
-        final var perfilPagamentoRequest = entry.getPerfilPagamentoRequest();
-        final var mercadoPagoCustomer = entry.getMercadoPagoCustomer();
+    public MercadoPagoCard execute(PagamentoContext pagamentoContext) {
+        final var customerResponse = pagamentoContext.getClienteResponse();
+        final var perfilPagamentoRequest = pagamentoContext.getPerfilPagamentoRequest();
+        final var mercadoPagoCustomer = pagamentoContext.getMercadoPagoCustomer();
         final var token = mercadoPagoClient.generateCardToken(buildMercadoPagoCardTokenRequest(perfilPagamentoRequest, customerResponse));
         final var mercadoPagoCardResponse = mercadoPagoClient.createCard(mercadoPagoCustomer.getMercadoPagoCustomerId(), buildMercadoPagoCreateCardRequest(token));
         final var mercadoPagoCard = mercadoPagoCardAdapter.adapt(mercadoPagoCardResponse);
-        mercadoPagoCard.setMercadoPagoCustomer(entry.getMercadoPagoCustomer());
+        mercadoPagoCard.setMercadoPagoCustomer(pagamentoContext.getMercadoPagoCustomer());
         return mercadoPagoCard;
     }
 
