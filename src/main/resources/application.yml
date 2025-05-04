@@ -13,5 +13,11 @@ spring:
         generate-ddl: true
         ddl-auto: update
 
+client:
+  mercadopago:
+    token: ${MERCADOPAGO_TOKEN}
+    url: ${MERCADOPAGO_URL:https://api.mercadopago.com/v1}
+    client-secret: ${MERCADOPAGO_CLIENT_SECRET}
+
 server:
   port: 8080

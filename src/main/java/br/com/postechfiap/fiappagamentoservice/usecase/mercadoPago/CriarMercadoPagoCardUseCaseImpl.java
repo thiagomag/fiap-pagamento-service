@@ -7,11 +7,14 @@ import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.Me
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoCreateCardRequest;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoCreateCardTokenRequest;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoIdentificationRequest;
+import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response.MercadoPagoCardTokenResponse;
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PerfilPagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCard;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarMercadoPagoCardUseCase;
 import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.PagamentoContext;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,22 +24,25 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
     private final MercadoPagoClient mercadoPagoClient;
     private final MercadoPagoCardAdapter mercadoPagoCardAdapter;
 
+    @Value("${mercadopago.private-key}")
+    private String privateKey;
+
 
     @Override
     public MercadoPagoCard execute(PagamentoContext pagamentoContext) {
         final var customerResponse = pagamentoContext.getClienteResponse();
         final var perfilPagamentoRequest = pagamentoContext.getPerfilPagamentoRequest();
         final var mercadoPagoCustomer = pagamentoContext.getMercadoPagoCustomer();
-        final var token = mercadoPagoClient.generateCardToken(buildMercadoPagoCardTokenRequest(perfilPagamentoRequest, customerResponse));
-        final var mercadoPagoCardResponse = mercadoPagoClient.createCard(mercadoPagoCustomer.getMercadoPagoCustomerId(), buildMercadoPagoCreateCardRequest(token));
+        final var tokenResponse = mercadoPagoClient.generateCardToken(buildMercadoPagoCardTokenRequest(perfilPagamentoRequest, customerResponse), privateKey);
+        final var mercadoPagoCardResponse = mercadoPagoClient.createCard(mercadoPagoCustomer.getMercadoPagoCustomerId(), buildMercadoPagoCreateCardRequest(tokenResponse));
         final var mercadoPagoCard = mercadoPagoCardAdapter.adapt(mercadoPagoCardResponse);
         mercadoPagoCard.setMercadoPagoCustomer(pagamentoContext.getMercadoPagoCustomer());
         return mercadoPagoCard;
     }
 
-    private MercadoPagoCreateCardRequest buildMercadoPagoCreateCardRequest(String token) {
+    private MercadoPagoCreateCardRequest buildMercadoPagoCreateCardRequest(MercadoPagoCardTokenResponse tokenResponse) {
         return MercadoPagoCreateCardRequest.builder()
-                .token(token)
+                .token(tokenResponse.getId())
                 .build();
     }
 
