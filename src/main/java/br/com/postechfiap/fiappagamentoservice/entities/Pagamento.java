@@ -29,8 +29,7 @@ public class Pagamento extends BaseEntity<Long> {
     private StatusPagamentoEnum status;
     private Long clienteId;
     private Long pedidoId;
-    @OneToOne
-    @JoinColumn(name = "mercado_pago_customer_id", nullable = false)
+    @OneToOne(mappedBy = "pagamento")
     private MercadoPagoPayment mercadoPagoPayment;
     @ManyToOne
     @JoinColumn(name = "perfil_pagamento_id")
