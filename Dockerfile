@@ -1,11 +1,9 @@
-FROM gradle:8.12.1-jdk21-alpine AS builder
-ENV GRADLE_USER_HOME=/home/gradle/.gradle
-RUN rm -rf /home/gradle/.gradle/caches/*
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN gradle clean build --no-daemon
+RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]

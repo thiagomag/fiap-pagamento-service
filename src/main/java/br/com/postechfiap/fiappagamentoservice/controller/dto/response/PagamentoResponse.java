@@ -26,11 +26,5 @@ public class PagamentoResponse {
     private StatusPagamentoEnum status;
     private Long clienteId;
     private Long pedidoId;
-    private Long mercadoPagoPaymentId;
-    private Long perfilPagamentoId;
-    private Integer parcelas;
-    private MetodoPagamentoEnum metodoPagamento;
-    private String codigoAutorizacao;
     private LocalDateTime authorizedAt;
-    private LocalDateTime capturedAt;
 }

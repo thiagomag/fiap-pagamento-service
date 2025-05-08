@@ -20,8 +20,6 @@ import java.time.LocalDate;
 @Schema(description = "Representa o perfil de pagamento")
 public class PerfilPagamentoRequest {
 
-    @Schema(description = "Bandeira do cartão", example = "visa")
-    private String bandeiraCartao;
     @Schema(description = "Número do cartão", example = "1234567890123456")
     private String numeroCartao;
     @Schema(description = "Código de segurança do cartão", example = "123")
@@ -30,6 +28,4 @@ public class PerfilPagamentoRequest {
     private String nomeTitularCartao;
     @Schema(description = "Data de validade do cartão", example = "2023-12-31")
     private LocalDate dataValidade;
-    @Schema(description = "ID do cliente", example = "123456789")
-    private Boolean cartaoPrincipal;
 }

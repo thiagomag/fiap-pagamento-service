@@ -2,62 +2,100 @@ package br.com.postechfiap.fiappagamentoservice.client.mercadopago;
 
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.*;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response.*;
-import jakarta.websocket.server.PathParam;
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "Mercado Pago Client", url = "${client.mercadopago.url}")
+import java.util.List;
+
+@FeignClient(name = "MercadoPagoClient", url = "${client.mercadopago.url}")
 public interface MercadoPagoClient {
 
-    @PostMapping("/payments")
-    MercadoPagoCustomerResponse createCustomer(MercadoPagoCreateCustomerRequest mercadoPagoCreateCustomerRequest);
+    // CUSTOMERS
+
+    @PostMapping("/customers")
+    MercadoPagoCustomerResponse createCustomer(@RequestBody MercadoPagoCreateCustomerRequest mercadoPagoCreateCustomerRequest);
 
     @GetMapping("/customers/{customerId}")
-    MercadoPagoCustomerResponse getCustomer(String customerId);
+    MercadoPagoCustomerResponse getCustomer(@PathVariable("customerId") String customerId);
 
     @PutMapping("/customers/{customerId}")
-    MercadoPagoCustomerResponse updateCustomer(String customerId, MercadoPagoUpdateCustomerRequest mercadoPagoUpdateCustomerRequest);
+    MercadoPagoCustomerResponse updateCustomer(
+            @PathVariable("customerId") String customerId,
+            @RequestBody MercadoPagoUpdateCustomerRequest mercadoPagoUpdateCustomerRequest
+    );
 
     @DeleteMapping("/customers/{customerId}")
-    MercadoPagoCustomerResponse deleteCustomer(String customerId);
+    MercadoPagoCustomerResponse deleteCustomer(@PathVariable("customerId") String customerId);
+
+
+    // CARDS
 
     @PostMapping("/customers/{customerId}/cards")
-    MercadoPagoCardResponse createCard(String customerId, MercadoPagoCreateCardRequest mercadoPagoCreateCardRequest);
+    MercadoPagoCardResponse createCard(
+            @PathVariable("customerId") String customerId,
+            @RequestBody MercadoPagoCreateCardRequest mercadoPagoCreateCardRequest
+    );
 
     @GetMapping("/customers/{customerId}/cards/{cardId}")
-    MercadoPagoCardResponse getCard(String customerId, String cardId);
+    MercadoPagoCardResponse getCard(
+            @PathVariable("customerId") String customerId,
+            @PathVariable("cardId") String cardId
+    );
 
     @DeleteMapping("/customers/{customerId}/cards/{cardId}")
-    MercadoPagoCardResponse deleteCard(String customerId, String cardId);
+    MercadoPagoCardResponse deleteCard(
+            @PathVariable("customerId") String customerId,
+            @PathVariable("cardId") String cardId
+    );
 
     @GetMapping("/customers/{customerId}/cards")
-    MercadoPagoCardResponse getCards(String customerId);
+    List<MercadoPagoCardResponse> getCards(@PathVariable("customerId") String customerId);
 
     @PutMapping("/customers/{customerId}/cards/{cardId}")
-    MercadoPagoCardResponse updateCard(String customerId, String cardId, MercadoPagoCreateCardRequest mercadoPagoCreateCardRequest);
+    MercadoPagoCardResponse updateCard(
+            @PathVariable("customerId") String customerId,
+            @PathVariable("cardId") String cardId,
+            @RequestBody MercadoPagoCreateCardRequest mercadoPagoCreateCardRequest
+    );
+
+
+    // PAYMENTS
 
     @PostMapping("/payments")
-    MercadoPagoPaymentResponse createPayment(MercadoPagoCreatePaymentRequest mercadoPagoCreatePaymentRequest);
+    MercadoPagoPaymentResponse createPayment(@RequestBody MercadoPagoCreatePaymentRequest mercadoPagoCreatePaymentRequest);
 
     @GetMapping("/payments/{paymentId}")
-    MercadoPagoPaymentResponse getPayment(String paymentId);
+    MercadoPagoPaymentResponse getPayment(@PathVariable("paymentId") String paymentId);
 
     @PutMapping("/payments/{paymentId}")
-    MercadoPagoPaymentResponse updatePayment(String paymentId, MercadoPagoUpdatePaymentRequest mercadoPagoUpdatePaymentRequest);
+    MercadoPagoPaymentResponse updatePayment(
+            @PathVariable("paymentId") String paymentId,
+            @RequestBody MercadoPagoUpdatePaymentRequest mercadoPagoUpdatePaymentRequest
+    );
 
     @PostMapping("/payments/{paymentId}/refunds")
-    MercadoPagoRefundResponse refundPayment(String paymentId, MercadoPagoRefundRequest mercadoPagoRefundRequest);
+    MercadoPagoRefundResponse refundPayment(
+            @PathVariable("paymentId") String paymentId,
+            @RequestBody MercadoPagoRefundRequest mercadoPagoRefundRequest
+    );
 
     @GetMapping("/payments/{paymentId}/refunds")
-    MercadoPagoRefundResponse getRefunds(String paymentId);
+    List<MercadoPagoRefundResponse> getRefunds(@PathVariable("paymentId") String paymentId);
 
     @GetMapping("/payments/{paymentId}/refunds/{refundId}")
-    MercadoPagoRefundResponse getRefund(String paymentId, String refundId);
+    MercadoPagoRefundResponse getRefund(
+            @PathVariable("paymentId") String paymentId,
+            @PathVariable("refundId") String refundId
+    );
+
+
+    // CARD TOKENS
 
     @PostMapping("/card_tokens")
-    MercadoPagoCardTokenResponse generateCardToken(MercadoPagoCreateCardTokenRequest mercadoPagoCreateCardTokenRequest, @PathParam("public_key") String publicKey);
+    MercadoPagoCardTokenResponse generateCardToken(
+            @RequestBody MercadoPagoCreateCardTokenRequest mercadoPagoCreateCardTokenRequest,
+            @RequestParam("public_key") String publicKey
+    );
 
 }
+

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @Builder(toBuilder = true)
-@Table(name = Pagamento.TABLE_NAME)
+@Table(name = PerfilPagamento.TABLE_NAME)
 @Entity
 public class PerfilPagamento extends BaseEntity<Long> {
 
@@ -25,10 +25,8 @@ public class PerfilPagamento extends BaseEntity<Long> {
     private Long id;
     private Long clienteId;
     private StatusBasicoEnum status;
-    private String bandeiraCartao;
     private String primeirosNumerosCartao;
     private String ultimosNumerosCartao;
     private String nomeTitularCartao;
     private LocalDate dataValidade;
-    private Boolean cartaoPrincipal;
 }

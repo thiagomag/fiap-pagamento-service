@@ -32,10 +32,6 @@ public class PagamentoRequest {
     private Long idPedido;
     @Schema(description = "ID do produto", example = "123456789")
     private Long idProduto;
-    @Schema(description = "Metodo de Pagamento", example = "CARTAO_CREDITO")
-    private MetodoPagamentoEnum metodoPagamento;
-    @Schema(description = "Quantidade de Parcelas", example = "1")
-    private Integer parcelas;
     @Schema(description = "Request para perfil de pagamneto")
     private PerfilPagamentoRequest perfilPagamento;
 

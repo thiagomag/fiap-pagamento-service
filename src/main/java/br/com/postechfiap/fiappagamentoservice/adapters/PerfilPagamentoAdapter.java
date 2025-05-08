@@ -2,6 +2,7 @@ package br.com.postechfiap.fiappagamentoservice.adapters;
 
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PerfilPagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.entities.PerfilPagamento;
+import br.com.postechfiap.fiappagamentoservice.enuns.StatusBasicoEnum;
 import br.com.postechfiap.fiappagamentoservice.utils.JsonUtils;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -21,12 +22,11 @@ public class PerfilPagamentoAdapter extends AbstractAdapter<PerfilPagamentoReque
 
             this.modelMapper.typeMap(PerfilPagamentoRequest.class, PerfilPagamento.class)
                     .addMappings(mapping -> {
-                        mapping.map(PerfilPagamentoRequest::getBandeiraCartao, PerfilPagamento::setBandeiraCartao);
-                        mapping.map(PerfilPagamentoRequest::getCartaoPrincipal, PerfilPagamento::setCartaoPrincipal);
                         mapping.map(PerfilPagamentoRequest::getDataValidade, PerfilPagamento::setDataValidade);
                         mapping.map(PerfilPagamentoRequest::getNomeTitularCartao, PerfilPagamento::setNomeTitularCartao);
                         mapping.using(toPrimeirosNumero()).map(PerfilPagamentoRequest::getNumeroCartao, PerfilPagamento::setPrimeirosNumerosCartao);
                         mapping.using(toUltimosNumeros()).map(PerfilPagamentoRequest::getNumeroCartao, PerfilPagamento::setUltimosNumerosCartao);
+                        mapping.map(perfilPagamentoRequest -> StatusBasicoEnum.ATIVO, PerfilPagamento::setStatus);
                     });
         }
 

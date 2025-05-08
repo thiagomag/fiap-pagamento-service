@@ -24,6 +24,7 @@ public class MercadoPagoCustomerAdapter extends AbstractAdapter<MercadoPagoCusto
 
             this.modelMapper.typeMap(MercadoPagoCustomerResponse.class, MercadoPagoCustomer.class)
                     .addMappings(mapping -> {
+                        mapping.skip(MercadoPagoCustomerResponse::getId, MercadoPagoCustomer::setId);
                         mapping.map(MercadoPagoCustomerResponse::getId, MercadoPagoCustomer::setMercadoPagoCustomerId);
                         mapping.map(MercadoPagoCustomerResponse::getFirstName, MercadoPagoCustomer::setFirstName);
                         mapping.map(MercadoPagoCustomerResponse::getLastName, MercadoPagoCustomer::setLastName);

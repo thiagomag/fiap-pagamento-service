@@ -34,8 +34,8 @@ public class MercadoPagoCreatePaymentRequestCustomAdapter implements CustomAdapt
                                 .build())
                         .build())
                 .externalReference(paymentRequest.getIdProduto().toString())
-                .paymentMethodId(paymentRequest.getMetodoPagamento().getValue())
-                .installments(paymentRequest.getParcelas())
+                .installments(1)
+                .binaryMode(true)
                 .metadata(Map.of("produto_id", paymentRequest.getIdProduto(),
                         "pedido_id", paymentRequest.getIdPedido(), "cliente_id", paymentRequest.getIdCliente()))
                 .build();

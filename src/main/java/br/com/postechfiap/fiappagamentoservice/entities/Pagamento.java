@@ -37,12 +37,6 @@ public class Pagamento extends BaseEntity<Long> {
     private Integer parcelas;
     private MetodoPagamentoEnum metodoPagamento;
     private String codigoAutorizacao;
-    private String urlCodigoPix;
-    private String codigoQrBase64;
-    private String codigoPix;
-    private String urlBoleto;
-    private String codigoBarrasBoleto;
-    private String codigoBarrasDigitavelBoleto;
     private LocalDateTime authorizedAt;
     private LocalDateTime capturedAt;
 

@@ -22,8 +22,9 @@ public class CriarPerfilPagamentoUseCaseImpl implements CriarPerfilPagamentoUseC
 
     @Override
     public PagamentoContext execute(PagamentoRequest pagamentoRequest) {
-        final var perfilPagamentpRequest = pagamentoRequest.getPerfilPagamento();
-        final var perfilCPagamento = perfilCPagamentoRepository.save(perfilCPagamentoAdapter.adapt(perfilPagamentpRequest));
+        final var perfilPagamentoRequest = pagamentoRequest.getPerfilPagamento();
+        final var pp = perfilCPagamentoAdapter.adapt(perfilPagamentoRequest);
+        final var perfilCPagamento = perfilCPagamentoRepository.save(pp);
         final var pagamentoContext = buildPagamentoContext(pagamentoRequest, perfilCPagamento);
         final var mercadoPagoCard = criarMercadoPagoCardUseCase.execute(pagamentoContext);
         mercadoPagoCard.setPerfilPagamento(perfilCPagamento);

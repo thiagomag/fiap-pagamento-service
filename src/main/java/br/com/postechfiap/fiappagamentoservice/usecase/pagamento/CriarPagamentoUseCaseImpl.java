@@ -4,6 +4,7 @@ import br.com.postechfiap.fiappagamentoservice.client.clienteService.ClienteServ
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.controller.dto.response.PagamentoResponse;
 import br.com.postechfiap.fiappagamentoservice.entities.Pagamento;
+import br.com.postechfiap.fiappagamentoservice.enuns.MetodoPagamentoEnum;
 import br.com.postechfiap.fiappagamentoservice.enuns.StatusPagamentoEnum;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.PagamentoRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.*;
@@ -26,6 +27,7 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
     public PagamentoResponse execute(PagamentoRequest pagamentoRequest) {
         final var customerResponse = clienteServiceClient.getCliente(pagamentoRequest.getIdCliente());
         final var mercadoPagoCustomer = criarOuAtualizarClienteUseCase.execute(customerResponse);
+        pagamentoRequest.setCliente(customerResponse);
         var pagamentoContext = criarPerfilPagamentoUseCase.execute(pagamentoRequest);
         final var pagamento = criarESalvarPagamento(pagamentoContext);
         pagamentoContext.setClienteResponse(customerResponse);
@@ -42,9 +44,9 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
                 .clienteId(pagamentoRequest.getIdCliente())
                 .valor(pagamentoRequest.getValor())
                 .status(StatusPagamentoEnum.PROCESSANDO)
-                .parcelas(pagamentoRequest.getParcelas())
+                .parcelas(1)
                 .pedidoId(pagamentoRequest.getIdPedido())
-                .metodoPagamento(pagamentoRequest.getMetodoPagamento())
+                .metodoPagamento(MetodoPagamentoEnum.CARTAO_CREDITO)
                 .perfilPagamento(perfilPagamento)
                 .build();
         return pagamentoRepository.save(pagamento);

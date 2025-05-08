@@ -40,15 +40,15 @@ public class CriarOuAtualizarClienteUseCaseImpl implements CriarOuAtualizarClien
     private static MercadoPagoUpdateCustomerRequest buildMercadoPagoUpdateCustomerRequest(ClienteResponse clienteResponse) {
         return MercadoPagoUpdateCustomerRequest.builder()
                 .firstName(clienteResponse.getNome())
-                .lastName(clienteResponse.getSobrenome())
+                .lastName(getSobreNome(clienteResponse))
                 .identification(MercadoPagoIdentificationRequest.builder()
                         .type("CPF")
                         .number(clienteResponse.getCpf())
                         .build())
                 .address(MercadoPagoCustomerAddressRequest.builder()
-                        .zipCode(clienteResponse.getEndereco().getCep())
-                        .streetName(clienteResponse.getEndereco().getLogradouro())
-                        .streetNumber(clienteResponse.getEndereco().getNumero())
+                        .zipCode(clienteResponse.getEnderecos().getFirst().getCep())
+                        .streetName(clienteResponse.getEnderecos().getFirst().getLogradouro())
+                        .streetNumber(clienteResponse.getEnderecos().getFirst().getNumero())
                         .build())
                 .build();
     }
@@ -64,17 +64,39 @@ public class CriarOuAtualizarClienteUseCaseImpl implements CriarOuAtualizarClien
     private static MercadoPagoCreateCustomerRequest buildMercadoPagoCreateCustomerRequest(ClienteResponse clienteResponse) {
         return MercadoPagoCreateCustomerRequest.builder()
                 .email(clienteResponse.getEmail())
-                .firstName(clienteResponse.getNome())
-                .lastName(clienteResponse.getSobrenome())
+                .firstName(getNome(clienteResponse))
+                .lastName(getSobreNome(clienteResponse))
                 .identification(MercadoPagoIdentificationRequest.builder()
                         .type("CPF")
                         .number(clienteResponse.getCpf())
                         .build())
                 .address(MercadoPagoCustomerAddressRequest.builder()
-                        .zipCode(clienteResponse.getEndereco().getCep())
-                        .streetName(clienteResponse.getEndereco().getLogradouro())
-                        .streetNumber(clienteResponse.getEndereco().getNumero())
+                        .zipCode(clienteResponse.getEnderecos().getFirst().getCep())
+                        .streetName(clienteResponse.getEnderecos().getFirst().getLogradouro())
+                        .streetNumber(clienteResponse.getEnderecos().getFirst().getNumero())
                         .build())
                 .build();
+    }
+
+    private static String getNome(ClienteResponse clienteResponse) {
+        final var nomeCompleto = clienteResponse.getNome();
+
+        String[] partes = nomeCompleto.split(" ", 2);
+        return partes[0];
+    }
+
+    private static String getSobreNome(ClienteResponse clienteResponse) {
+        final var nome = clienteResponse.getNome();
+        if (nome == null || nome.trim().isEmpty()) {
+            return "";
+        }
+
+        final var partes = nome.trim().split("\\s+");
+
+        if (partes.length == 1) {
+            return "";
+        }
+
+        return partes[partes.length - 1];
     }
 }

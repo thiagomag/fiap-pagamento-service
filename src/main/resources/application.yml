@@ -15,9 +15,11 @@ spring:
 
 client:
   mercadopago:
-    token: ${MERCADOPAGO_TOKEN}
+    token: ${MERCADOPAGO_TOKEN:TEST-8560186811425402-042821-5380eeb105625d0ea6737dc380ffe158-57534286}
     url: ${MERCADOPAGO_URL:https://api.mercadopago.com/v1}
-    client-secret: ${MERCADOPAGO_CLIENT_SECRET}
+    public-key: ${MERCADOPAGO_PUBLIC_KEY:TEST-2bb25cd7-97df-4278-b1f9-01464bf15805}
+  cliente-service:
+    url: ${CLIENTE_SERVICE_URL:http://localhost:8081}
 
 server:
   port: 8080

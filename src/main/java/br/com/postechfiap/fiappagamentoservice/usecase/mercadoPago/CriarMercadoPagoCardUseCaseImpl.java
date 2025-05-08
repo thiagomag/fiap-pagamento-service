@@ -24,8 +24,8 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
     private final MercadoPagoClient mercadoPagoClient;
     private final MercadoPagoCardAdapter mercadoPagoCardAdapter;
 
-    @Value("${mercadopago.private-key}")
-    private String privateKey;
+    @Value("${client.mercadopago.public-key}")
+    private String publicKey;
 
 
     @Override
@@ -33,7 +33,7 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
         final var customerResponse = pagamentoContext.getClienteResponse();
         final var perfilPagamentoRequest = pagamentoContext.getPerfilPagamentoRequest();
         final var mercadoPagoCustomer = pagamentoContext.getMercadoPagoCustomer();
-        final var tokenResponse = mercadoPagoClient.generateCardToken(buildMercadoPagoCardTokenRequest(perfilPagamentoRequest, customerResponse), privateKey);
+        final var tokenResponse = mercadoPagoClient.generateCardToken(buildMercadoPagoCardTokenRequest(perfilPagamentoRequest, customerResponse), publicKey);
         final var mercadoPagoCardResponse = mercadoPagoClient.createCard(mercadoPagoCustomer.getMercadoPagoCustomerId(), buildMercadoPagoCreateCardRequest(tokenResponse));
         final var mercadoPagoCard = mercadoPagoCardAdapter.adapt(mercadoPagoCardResponse);
         mercadoPagoCard.setMercadoPagoCustomer(pagamentoContext.getMercadoPagoCustomer());

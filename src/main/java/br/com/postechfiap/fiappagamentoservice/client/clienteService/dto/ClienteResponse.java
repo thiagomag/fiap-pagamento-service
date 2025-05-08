@@ -3,6 +3,9 @@ package br.com.postechfiap.fiappagamentoservice.client.clienteService.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -14,12 +17,10 @@ public class ClienteResponse {
 
     private Long id;
     private String nome;
-    private String sobrenome;
     private String email;
-    private String telefone;
     private String cpf;
-    private String dataNascimento;
-    private EnderecoResponse endereco;
+    private LocalDate dataNascimento;
+    private List<EnderecoResponse> enderecos;
 
 
 }
