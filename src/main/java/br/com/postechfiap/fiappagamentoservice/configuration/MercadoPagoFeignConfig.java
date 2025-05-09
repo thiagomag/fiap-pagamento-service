@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.UUID;
+
 @Configuration
 public class MercadoPagoFeignConfig {
 
@@ -13,6 +15,9 @@ public class MercadoPagoFeignConfig {
 
     @Bean
     public RequestInterceptor mercadoPagoRequestInterceptor() {
-        return requestTemplate -> requestTemplate.header("Authorization", "Bearer " + mercadoPagoToken);
+        return requestTemplate -> requestTemplate
+                .header("Authorization", "Bearer " + mercadoPagoToken)
+                .header("X-Idempotency-Key", UUID.randomUUID().toString())
+                .header("Content-Type", "application/json");
     }
 }

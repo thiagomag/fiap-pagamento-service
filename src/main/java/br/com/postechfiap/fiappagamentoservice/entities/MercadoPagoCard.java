@@ -18,6 +18,7 @@ public class MercadoPagoCard extends BaseEntity<Long> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator", sequenceName = "mercado_pago_card_id_seq", allocationSize = 1)
     private Long id;
+    private Long mercadoPagoCardId;
     @ManyToOne
     @JoinColumn(name = "mercado_pago_customer_id", nullable = false)
     private MercadoPagoCustomer mercadoPagoCustomer;

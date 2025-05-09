@@ -14,7 +14,7 @@ public class MercadoPagoCreateCardTokenRequest {
 
     private String cardNumber;
     private MercadoPagoCardHolderRequest cardHolder;
-    private String expirationMonth;
-    private String expirationYear;
+    private Integer expirationMonth;
+    private Integer expirationYear;
     private String securityCode;
 }

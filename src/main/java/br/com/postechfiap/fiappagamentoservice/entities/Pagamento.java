@@ -29,14 +29,14 @@ public class Pagamento extends BaseEntity<Long> {
     private StatusPagamentoEnum status;
     private Long clienteId;
     private Long pedidoId;
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mercado_pago_payment_id", referencedColumnName = "id")
     private MercadoPagoPayment mercadoPagoPayment;
     @ManyToOne
     @JoinColumn(name = "perfil_pagamento_id")
     private PerfilPagamento perfilPagamento;
     private Integer parcelas;
     private MetodoPagamentoEnum metodoPagamento;
-    private String codigoAutorizacao;
     private LocalDateTime authorizedAt;
     private LocalDateTime capturedAt;
 

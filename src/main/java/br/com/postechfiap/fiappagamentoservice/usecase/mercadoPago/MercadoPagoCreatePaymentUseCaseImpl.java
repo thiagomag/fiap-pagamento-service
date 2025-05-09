@@ -22,7 +22,7 @@ public class MercadoPagoCreatePaymentUseCaseImpl implements MercadoPagoCreatePay
     public PagamentoContext execute(PagamentoContext pagamentoContext) {
         final var mercadoPagoPaymentRequest = mercadoPagoCreatePaymentRequestCustomAdapter.adapt(pagamentoContext);
         final var mercadoPagoPaymentResponse = mercadoPagoClient.createPayment(mercadoPagoPaymentRequest);
-        final var mercadoPagoPayment = mercadoPagoPaymentRepository.save(mercadoPagoPaymentAdapter.adapt(mercadoPagoPaymentResponse));
+        final var mercadoPagoPayment = mercadoPagoPaymentRepository.save(mercadoPagoPaymentAdapter.adapt(mercadoPagoPaymentResponse, pagamentoContext));
         pagamentoContext.setMercadoPagoPayment(mercadoPagoPayment);
         return pagamentoContext;
     }

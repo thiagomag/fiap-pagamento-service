@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class MercadoPagoPaymentCustomAdapter implements CustomAdapter<MercadoPagoPaymentResponse, MercadoPagoPayment> {
@@ -27,11 +30,10 @@ public class MercadoPagoPaymentCustomAdapter implements CustomAdapter<MercadoPag
         final var pagamentoContext = (PagamentoContext) args[0];
         final var mercadoPagoCard = pagamentoContext.getMercadoPagoCard();
         final var mercadoPagoCustomer = pagamentoContext.getMercadoPagoCustomer();
-        final var pagamento = pagamentoContext.getPagamento();
 
         return MercadoPagoPayment.builder()
                 .mercadoPagoCustomer(mercadoPagoCustomer)
-                .id(mercadoPagoPaymentResponse.getId())
+                .mercadoPagoPaymentId(mercadoPagoPaymentResponse.getId())
                 .status(mercadoPagoPaymentResponse.getStatus())
                 .paymentMethodId(mercadoPagoPaymentResponse.getPaymentMethodId())
                 .transactionAmount(mercadoPagoPaymentResponse.getTransactionAmount())
@@ -40,11 +42,10 @@ public class MercadoPagoPaymentCustomAdapter implements CustomAdapter<MercadoPag
                 .mercadoPagoCard(mercadoPagoCard)
                 .authorizationCode(mercadoPagoPaymentResponse.getAuthorizationCode())
                 .operationType(mercadoPagoPaymentResponse.getOperationType())
-                .pagamento(pagamento)
                 .statusDetail(mercadoPagoPaymentResponse.getStatusDetail())
                 .response(jsonUtils.writeValueAsStringOrNull(mercadoPagoPaymentResponse))
-                .authorizedAt(mercadoPagoPaymentResponse.getDateApproved())
-                .capturedAt(mercadoPagoPaymentResponse.getDateApproved())
+                .authorizedAt(Optional.ofNullable(mercadoPagoPaymentResponse.getDateApproved()).map(OffsetDateTime::toLocalDateTime).orElse(null))
+                .capturedAt(mercadoPagoPaymentResponse.getDateCreated().toLocalDateTime())
                 .build();
     }
 }

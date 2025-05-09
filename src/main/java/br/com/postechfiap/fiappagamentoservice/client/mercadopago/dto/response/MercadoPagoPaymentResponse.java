@@ -4,10 +4,12 @@ import br.com.postechfiap.fiappagamentoservice.enuns.PaymentStatusDetailEnum;
 import br.com.postechfiap.fiappagamentoservice.enuns.PaymentStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -17,13 +19,14 @@ import java.util.Map;
 @Setter
 @Builder
 @EqualsAndHashCode(callSuper = false)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MercadoPagoPaymentResponse {
 
     private Long id;
-    private LocalDateTime dateCreated;
-    private LocalDateTime dateApproved;
-    private LocalDateTime dateLastUpdated;
+    private OffsetDateTime dateCreated;
+    private OffsetDateTime dateApproved;
+    private OffsetDateTime dateLastUpdated;
     private String operationType;
     private String paymentMethodId;
     private String paymentTypeId;

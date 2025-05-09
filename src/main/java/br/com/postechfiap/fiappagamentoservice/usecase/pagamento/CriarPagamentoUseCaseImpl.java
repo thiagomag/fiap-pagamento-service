@@ -1,8 +1,10 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.pagamento;
 
 import br.com.postechfiap.fiappagamentoservice.client.clienteService.ClienteServiceClient;
+import br.com.postechfiap.fiappagamentoservice.client.clienteService.dto.ClienteResponse;
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.controller.dto.response.PagamentoResponse;
+import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCustomer;
 import br.com.postechfiap.fiappagamentoservice.entities.Pagamento;
 import br.com.postechfiap.fiappagamentoservice.enuns.MetodoPagamentoEnum;
 import br.com.postechfiap.fiappagamentoservice.enuns.StatusPagamentoEnum;
@@ -27,14 +29,20 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
     public PagamentoResponse execute(PagamentoRequest pagamentoRequest) {
         final var customerResponse = clienteServiceClient.getCliente(pagamentoRequest.getIdCliente());
         final var mercadoPagoCustomer = criarOuAtualizarClienteUseCase.execute(customerResponse);
-        pagamentoRequest.setCliente(customerResponse);
-        var pagamentoContext = criarPerfilPagamentoUseCase.execute(pagamentoRequest);
+        var pagamentoContext = criarPerfilPagamentoUseCase.execute(buildaPagamentoContext(pagamentoRequest, customerResponse, mercadoPagoCustomer));
         final var pagamento = criarESalvarPagamento(pagamentoContext);
-        pagamentoContext.setClienteResponse(customerResponse);
-        pagamentoContext.setMercadoPagoCustomer(mercadoPagoCustomer);
         pagamentoContext.setPagamento(pagamento);
         pagamentoContext = mercadoPagoCreatePaymentUseCase.execute(pagamentoContext);
         return atualizarPagamentoUseCase.execute(pagamentoContext);
+    }
+
+    private PagamentoContext buildaPagamentoContext(PagamentoRequest pagamentoRequest, ClienteResponse customerResponse, MercadoPagoCustomer mercadoPagoCustomer) {
+        return PagamentoContext.builder()
+                .clienteResponse(customerResponse)
+                .mercadoPagoCustomer(mercadoPagoCustomer)
+                .perfilPagamentoRequest(pagamentoRequest.getPerfilPagamento())
+                .pagamentoRequest(pagamentoRequest)
+                .build();
     }
 
     private Pagamento criarESalvarPagamento(PagamentoContext pagamentoContext) {

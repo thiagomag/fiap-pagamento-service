@@ -3,15 +3,12 @@ package br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response;
 import br.com.postechfiap.fiappagamentoservice.enuns.RefundStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,13 +16,14 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @EqualsAndHashCode(callSuper=false)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MercadoPagoRefundResponse {
 
     private Long id;
     private Long paymentId;
     private BigDecimal amount;
-    private LocalDateTime dateCreated;
+    private OffsetDateTime dateCreated;
     private String refundMode;
     private BigDecimal adjustmentAmount;
     private String status;

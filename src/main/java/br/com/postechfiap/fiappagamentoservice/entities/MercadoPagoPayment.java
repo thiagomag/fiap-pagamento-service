@@ -13,23 +13,23 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @Builder(toBuilder = true)
-@Table(name = Pagamento.TABLE_NAME)
+@Table(name = MercadoPagoPayment.TABLE_NAME)
 @Entity
 public class MercadoPagoPayment extends BaseEntity<Long> {
 
+    public static final String TABLE_NAME = "mercado_pago_payment";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "mercado_pago_paymentid_seq", allocationSize = 1)
+    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "mercado_pago_payment_id_seq", allocationSize = 1)
     private Long id;
+    private Long mercadoPagoPaymentId;
     @ManyToOne
     @JoinColumn(name = "mercado_pago_customer_id", nullable = false)
     private MercadoPagoCustomer mercadoPagoCustomer;
     @ManyToOne
     @JoinColumn(name = "mercado_pago_card_id", nullable = false)
     private MercadoPagoCard mercadoPagoCard;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pagamento_id", nullable = false)
-    private Pagamento pagamento;
     private String operationType;
     private Integer installments;
     private BigDecimal transactionAmount;

@@ -1,16 +1,11 @@
 package br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import java.util.Map;
 
 @NoArgsConstructor
@@ -19,6 +14,7 @@ import java.util.Map;
 @Setter
 @Builder
 @EqualsAndHashCode(callSuper=false)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MercadoPagoCreatePaymentRequest {
 

@@ -33,6 +33,7 @@ CREATE TABLE mercado_pago_customer
 CREATE TABLE mercado_pago_card
 (
     id                          BIGSERIAL PRIMARY KEY,
+    mercado_pago_card_id        BIGINT NOT NULL,
     mercado_pago_customer_id    BIGINT NOT NULL,
     perfil_pagamento_id         BIGINT NOT NULL,
     expiration_month            INTEGER,
@@ -49,32 +50,13 @@ CREATE TABLE mercado_pago_card
     FOREIGN KEY (perfil_pagamento_id) REFERENCES perfil_pagamento (id)
 );
 
--- Tabela: pagamento
-CREATE TABLE pagamento
-(
-    id                             BIGSERIAL PRIMARY KEY,
-    valor                          NUMERIC(19, 2),
-    status                         VARCHAR(255),
-    cliente_id                     BIGINT,
-    pedido_id                      BIGINT,
-    perfil_pagamento_id            BIGINT,
-    parcelas                       INTEGER,
-    metodo_pagamento               VARCHAR(255),
-    authorized_at                  TIMESTAMP,
-    captured_at                    TIMESTAMP,
-    created_at                     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at                     TIMESTAMP,
-    deleted_tmsp                   TIMESTAMP,
-    FOREIGN KEY (perfil_pagamento_id) REFERENCES perfil_pagamento (id)
-);
-
 -- Tabela: mercado_pago_payment
 CREATE TABLE mercado_pago_payment
 (
     id                          BIGSERIAL PRIMARY KEY,
+    mercado_pago_payment_id     BIGINT NOT NULL,
     mercado_pago_customer_id    BIGINT NOT NULL,
     mercado_pago_card_id        BIGINT NOT NULL,
-    pagamento_id                BIGINT NOT NULL UNIQUE,
     operation_type              VARCHAR(255),
     installments                INTEGER,
     transaction_amount          NUMERIC(19, 2),
@@ -91,6 +73,26 @@ CREATE TABLE mercado_pago_payment
     updated_at                  TIMESTAMP,
     deleted_tmsp                TIMESTAMP,
     FOREIGN KEY (mercado_pago_customer_id) REFERENCES mercado_pago_customer (id),
-    FOREIGN KEY (mercado_pago_card_id) REFERENCES mercado_pago_card (id),
-    FOREIGN KEY (pagamento_id) REFERENCES pagamento (id)
+    FOREIGN KEY (mercado_pago_card_id) REFERENCES mercado_pago_card (id)
+);
+
+-- Tabela: pagamento
+CREATE TABLE pagamento
+(
+    id                             BIGSERIAL PRIMARY KEY,
+    valor                          NUMERIC(19, 2),
+    status                         VARCHAR(255),
+    cliente_id                     BIGINT,
+    pedido_id                      BIGINT,
+    perfil_pagamento_id            BIGINT,
+    mercado_pago_payment_id        BIGINT,
+    parcelas                       INTEGER,
+    metodo_pagamento               VARCHAR(255),
+    authorized_at                  TIMESTAMP,
+    captured_at                    TIMESTAMP,
+    created_at                     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at                     TIMESTAMP,
+    deleted_tmsp                   TIMESTAMP,
+    FOREIGN KEY (perfil_pagamento_id) REFERENCES perfil_pagamento (id),
+    FOREIGN KEY (mercado_pago_payment_id) REFERENCES mercado_pago_payment (id)
 );

@@ -1,8 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.pagamento;
 
 import br.com.postechfiap.fiappagamentoservice.adapters.PerfilPagamentoAdapter;
-import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PagamentoRequest;
-import br.com.postechfiap.fiappagamentoservice.entities.PerfilPagamento;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoCardRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.PerfilPagamentoRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarMercadoPagoCardUseCase;
@@ -21,24 +19,12 @@ public class CriarPerfilPagamentoUseCaseImpl implements CriarPerfilPagamentoUseC
     private final MercadoPagoCardRepository mercadoPagoCardRepository;
 
     @Override
-    public PagamentoContext execute(PagamentoRequest pagamentoRequest) {
-        final var perfilPagamentoRequest = pagamentoRequest.getPerfilPagamento();
-        final var pp = perfilCPagamentoAdapter.adapt(perfilPagamentoRequest);
-        final var perfilCPagamento = perfilCPagamentoRepository.save(pp);
-        final var pagamentoContext = buildPagamentoContext(pagamentoRequest, perfilCPagamento);
+    public PagamentoContext execute(PagamentoContext pagamentoContext) {
+        final var perfilPagamentoRequest = pagamentoContext.getPerfilPagamentoRequest();
+        final var perfilCPagamento = perfilCPagamentoRepository.save(perfilCPagamentoAdapter.adapt(perfilPagamentoRequest));
+        pagamentoContext.setPerfilPagamento(perfilCPagamento);
         final var mercadoPagoCard = criarMercadoPagoCardUseCase.execute(pagamentoContext);
-        mercadoPagoCard.setPerfilPagamento(perfilCPagamento);
         pagamentoContext.setMercadoPagoCard(mercadoPagoCard);
-        mercadoPagoCardRepository.save(mercadoPagoCard);
         return pagamentoContext;
-    }
-
-    private PagamentoContext buildPagamentoContext(PagamentoRequest pagamentoRequest, PerfilPagamento perfilCPagamento) {
-        return PagamentoContext.builder()
-                .pagamentoRequest(pagamentoRequest)
-                .perfilPagamento(perfilCPagamento)
-                .perfilPagamentoRequest(pagamentoRequest.getPerfilPagamento())
-                .clienteResponse(pagamentoRequest.getCliente())
-                .build();
     }
 }

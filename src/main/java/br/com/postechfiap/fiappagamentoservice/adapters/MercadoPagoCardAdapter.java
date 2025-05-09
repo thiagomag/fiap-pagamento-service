@@ -25,7 +25,8 @@ public class MercadoPagoCardAdapter extends AbstractAdapter<MercadoPagoCardRespo
 
             this.modelMapper.typeMap(MercadoPagoCardResponse.class, MercadoPagoCard.class)
                     .addMappings(mapping -> {
-                        mapping.map(MercadoPagoCardResponse::getId, MercadoPagoCard::setId);
+                        mapping.skip(MercadoPagoCardResponse::getId, MercadoPagoCard::setId);
+                        mapping.map(MercadoPagoCardResponse::getId, MercadoPagoCard::setMercadoPagoCardId);
                         mapping.map(MercadoPagoCardResponse::getLastFourDigits, MercadoPagoCard::setLastFourDigits);
                         mapping.map(MercadoPagoCardResponse::getExpirationMonth, MercadoPagoCard::setExpirationMonth);
                         mapping.map(MercadoPagoCardResponse::getExpirationYear, MercadoPagoCard::setExpirationYear);

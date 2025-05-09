@@ -28,7 +28,13 @@ public class AtualizarPagamentoUseCaseImpl implements AtualizarPagamentoUseCase 
     private Pagamento atualizarPagamento(PagamentoContext pagamentoContext) {
         final var pagamento = pagamentoContext.getPagamento();
         final var mercadoPagoPayment = pagamentoContext.getMercadoPagoPayment();
-        pagamento.setStatus(StatusPagamentoEnum.valueOf(mercadoPagoPayment.getStatus()));
+        if ("rejected".equalsIgnoreCase(mercadoPagoPayment.getStatus())) {
+            pagamento.setStatus(StatusPagamentoEnum.FALHA);
+        } else if ("approved".equalsIgnoreCase(mercadoPagoPayment.getStatus())) {
+            pagamento.setStatus(StatusPagamentoEnum.SUCESSO);
+        } else if ("pending".equalsIgnoreCase(mercadoPagoPayment.getStatus())) {
+            pagamento.setStatus(StatusPagamentoEnum.PENDENTE);
+        }
         pagamento.setMercadoPagoPayment(mercadoPagoPayment);
         pagamento.setAuthorizedAt(mercadoPagoPayment.getAuthorizedAt());
         pagamento.setCapturedAt(mercadoPagoPayment.getCapturedAt());

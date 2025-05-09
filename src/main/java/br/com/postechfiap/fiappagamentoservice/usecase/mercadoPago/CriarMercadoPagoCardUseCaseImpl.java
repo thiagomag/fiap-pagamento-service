@@ -10,6 +10,7 @@ import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.Me
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response.MercadoPagoCardTokenResponse;
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PerfilPagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCard;
+import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoCardRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarMercadoPagoCardUseCase;
 import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.PagamentoContext;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
 
     private final MercadoPagoClient mercadoPagoClient;
     private final MercadoPagoCardAdapter mercadoPagoCardAdapter;
+    private final MercadoPagoCardRepository mercadoPagoCardRepository;
 
     @Value("${client.mercadopago.public-key}")
     private String publicKey;
@@ -37,7 +39,9 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
         final var mercadoPagoCardResponse = mercadoPagoClient.createCard(mercadoPagoCustomer.getMercadoPagoCustomerId(), buildMercadoPagoCreateCardRequest(tokenResponse));
         final var mercadoPagoCard = mercadoPagoCardAdapter.adapt(mercadoPagoCardResponse);
         mercadoPagoCard.setMercadoPagoCustomer(pagamentoContext.getMercadoPagoCustomer());
-        return mercadoPagoCard;
+        mercadoPagoCard.setToken(tokenResponse.getId());
+        mercadoPagoCard.setPerfilPagamento(pagamentoContext.getPerfilPagamento());
+        return mercadoPagoCardRepository.save(mercadoPagoCard);
     }
 
     private MercadoPagoCreateCardRequest buildMercadoPagoCreateCardRequest(MercadoPagoCardTokenResponse tokenResponse) {
@@ -64,8 +68,8 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
                                 .number(customerResponse.getCpf())
                                 .build())
                         .build())
-                .expirationMonth(String.valueOf(perfilPagamentoRequest.getDataValidade().getMonth()))
-                .expirationYear(String.valueOf(perfilPagamentoRequest.getDataValidade().getYear()))
+                .expirationMonth(perfilPagamentoRequest.getDataValidade().getMonth().getValue())
+                .expirationYear(perfilPagamentoRequest.getDataValidade().getYear())
                 .securityCode(perfilPagamentoRequest.getCodigoSegurancaCartao())
                 .build();
     }
