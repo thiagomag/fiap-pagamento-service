@@ -9,6 +9,8 @@ import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.Pagamento
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class MercadoPagoCreatePaymentUseCaseImpl implements MercadoPagoCreatePaymentUseCase {
@@ -21,7 +23,7 @@ public class MercadoPagoCreatePaymentUseCaseImpl implements MercadoPagoCreatePay
     @Override
     public PagamentoContext execute(PagamentoContext pagamentoContext) {
         final var mercadoPagoPaymentRequest = mercadoPagoCreatePaymentRequestCustomAdapter.adapt(pagamentoContext);
-        final var mercadoPagoPaymentResponse = mercadoPagoClient.createPayment(mercadoPagoPaymentRequest);
+        final var mercadoPagoPaymentResponse = mercadoPagoClient.createPayment(mercadoPagoPaymentRequest, UUID.randomUUID());
         final var mercadoPagoPayment = mercadoPagoPaymentRepository.save(mercadoPagoPaymentAdapter.adapt(mercadoPagoPaymentResponse, pagamentoContext));
         pagamentoContext.setMercadoPagoPayment(mercadoPagoPayment);
         return pagamentoContext;

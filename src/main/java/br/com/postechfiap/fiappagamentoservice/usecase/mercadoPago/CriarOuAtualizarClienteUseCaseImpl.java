@@ -33,7 +33,7 @@ public class CriarOuAtualizarClienteUseCaseImpl implements CriarOuAtualizarClien
     private MercadoPagoCustomer atualizarMercadoPagoCustomer(MercadoPagoCustomer mercadoPagoCustomer, ClienteResponse clienteResponse) {
         final var mercadoPagoUpdateCustomerRequest = buildMercadoPagoUpdateCustomerRequest(clienteResponse);
         final var mercadoPagoResponse = mercadoPagoClient.updateCustomer(mercadoPagoCustomer.getMercadoPagoCustomerId(), mercadoPagoUpdateCustomerRequest);
-        final var mercadoPagoCustomerUpdated = mercadoPagoCustomerAdapter.adapt(mercadoPagoResponse);
+        final var mercadoPagoCustomerUpdated = mercadoPagoCustomerAdapter.adapt(mercadoPagoResponse, mercadoPagoCustomer);
         return mercadoPagoCustomerRepository.save(mercadoPagoCustomerUpdated);
     }
 

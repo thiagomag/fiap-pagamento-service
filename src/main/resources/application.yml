@@ -13,6 +13,10 @@ spring:
         generate-ddl: true
         ddl-auto: update
 
+mock:
+  mercado-pago:
+    enabled: true
+
 client:
   mercadopago:
     token: ${MERCADOPAGO_TOKEN:TEST-8560186811425402-042821-5380eeb105625d0ea6737dc380ffe158-57534286}

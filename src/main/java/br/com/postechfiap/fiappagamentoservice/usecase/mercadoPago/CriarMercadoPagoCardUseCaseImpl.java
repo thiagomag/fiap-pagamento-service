@@ -13,6 +13,7 @@ import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCard;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoCardRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarMercadoPagoCardUseCase;
 import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.PagamentoContext;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -63,9 +64,10 @@ public class CriarMercadoPagoCardUseCaseImpl implements CriarMercadoPagoCardUseC
         return MercadoPagoCreateCardTokenRequest.builder()
                 .cardNumber(perfilPagamentoRequest.getNumeroCartao())
                 .cardHolder(MercadoPagoCardHolderRequest.builder()
+                        .name(perfilPagamentoRequest.getNomeTitularCartao())
                         .identification(MercadoPagoIdentificationRequest.builder()
                                 .type("CPF")
-                                .number(customerResponse.getCpf())
+                                .number("12345678909")
                                 .build())
                         .build())
                 .expirationMonth(perfilPagamentoRequest.getDataValidade().getMonth().getValue())
