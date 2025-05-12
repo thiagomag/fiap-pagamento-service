@@ -1,9 +1,10 @@
 version: '3.8'
 
 services:
-  db:
+  postgres:
     image: postgres:15-alpine
-    container_name: postgres-db
+    container_name: fiap-postgres
+    restart: always
     environment:
       POSTGRES_DB: restaurant_reservation_api
       POSTGRES_USER: postgres
@@ -15,16 +16,16 @@ services:
     networks:
       - app-network
 
-  app:
+  fiap-pagamento-service:
     image: thiagomag/fiap-pagamento-service:latest
     build:
       context: .
       dockerfile: Dockerfile
     container_name: fiap-pagamento-service
     ports:
-      - "8080:8080"
+      - "8083:8083"
     environment:
-      DB_HOST: db
+      DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: pagamento-service
       DB_URL_PARAM: ?ssl=false
