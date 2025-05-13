@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class PagamentoRequest {
     @Schema(description = "ID do pedido", example = "123456789")
     private Long idPedido;
     @Schema(description = "ID do produto", example = "123456789")
-    private String idProduto;
+    private UUID idProduto;
     @Schema(description = "Request para perfil de pagamneto")
     private PerfilPagamentoRequest perfilPagamento;
 }
