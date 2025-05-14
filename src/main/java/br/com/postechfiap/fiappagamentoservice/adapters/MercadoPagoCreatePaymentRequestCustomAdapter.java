@@ -33,11 +33,11 @@ public class MercadoPagoCreatePaymentRequestCustomAdapter implements CustomAdapt
                                 .number(clienteResponse.getCpf())
                                 .build())
                         .build())
-                .externalReference(paymentRequest.getIdProduto().toString())
+                .externalReference(paymentRequest.getSkuProduto())
                 .installments(1)
                 .binaryMode(true)
-                .metadata(Map.of("produto_id", paymentRequest.getIdProduto().toString(),
-                        "pedido_id", paymentRequest.getIdPedido(), "cliente_id", paymentRequest.getIdCliente()))
+                .metadata(Map.of("produto_id", paymentRequest.getSkuProduto(),
+                        "pedido_id", paymentRequest.getIdPedido().toString(), "cliente_id", paymentRequest.getIdCliente()))
                 .build();
     }
 }

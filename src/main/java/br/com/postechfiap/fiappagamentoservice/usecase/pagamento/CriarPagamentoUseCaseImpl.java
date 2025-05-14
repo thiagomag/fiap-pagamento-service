@@ -53,7 +53,7 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
                 .valor(pagamentoRequest.getValor())
                 .status(StatusPagamentoEnum.PROCESSANDO)
                 .parcelas(1)
-                .pedidoId(pagamentoRequest.getIdPedido())
+                .pedidoId(pagamentoRequest.getIdPedido().toString())
                 .metodoPagamento(MetodoPagamentoEnum.CARTAO_CREDITO)
                 .perfilPagamento(perfilPagamento)
                 .build();

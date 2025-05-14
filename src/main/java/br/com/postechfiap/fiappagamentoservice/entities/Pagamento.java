@@ -28,7 +28,7 @@ public class Pagamento extends BaseEntity<Long> {
     private BigDecimal valor;
     private StatusPagamentoEnum status;
     private Long clienteId;
-    private Long pedidoId;
+    private String pedidoId;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mercado_pago_payment_id", referencedColumnName = "id")
     private MercadoPagoPayment mercadoPagoPayment;

@@ -26,9 +26,9 @@ public class PagamentoRequest {
     @Schema(description = "ID do cliente", example = "123456789")
     private Long idCliente;
     @Schema(description = "ID do pedido", example = "123456789")
-    private Long idPedido;
+    private UUID idPedido;
     @Schema(description = "ID do produto", example = "123456789")
-    private UUID idProduto;
+    private String skuProduto;
     @Schema(description = "Request para perfil de pagamneto")
     private PerfilPagamentoRequest perfilPagamento;
 }

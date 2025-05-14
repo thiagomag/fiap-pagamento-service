@@ -14,7 +14,7 @@ public class PagamentoResponseCustomAdapter implements CustomAdapter<PagamentoCo
 
         return PagamentoResponse.builder()
                 .authorizedAt(pagamento.getAuthorizedAt())
-                .status(pagamento.getStatus())
+                .status(pagamento.getStatus().getDescricao())
                 .id(pagamento.getId())
                 .clienteId(pagamento.getClienteId())
                 .valor(pagamento.getValor())

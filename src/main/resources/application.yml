@@ -2,7 +2,7 @@ spring:
   application:
     name: fiap-pagamento-service
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pagamento_service}${DB_URL_PARAM:?ssl=false}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pagamento-service}${DB_URL_PARAM:?ssl=false}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:postgres}
     hikari:
@@ -26,4 +26,4 @@ client:
     url: ${CLIENTE_SERVICE_URL:http://localhost:8081}
 
 server:
-  port: 8080
+  port: 8083

@@ -83,7 +83,7 @@ CREATE TABLE pagamento
     valor                          NUMERIC(19, 2),
     status                         VARCHAR(255),
     cliente_id                     BIGINT,
-    pedido_id                      BIGINT,
+    pedido_id                      VARCHAR(255),
     perfil_pagamento_id            BIGINT,
     mercado_pago_payment_id        BIGINT,
     parcelas                       INTEGER,

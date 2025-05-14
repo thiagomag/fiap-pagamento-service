@@ -1,7 +1,5 @@
 package br.com.postechfiap.fiappagamentoservice.controller.dto.response;
 
-import br.com.postechfiap.fiappagamentoservice.enuns.MetodoPagamentoEnum;
-import br.com.postechfiap.fiappagamentoservice.enuns.StatusPagamentoEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -23,8 +21,8 @@ public class PagamentoResponse {
 
     private Long id;
     private BigDecimal valor;
-    private StatusPagamentoEnum status;
+    private String status;
     private Long clienteId;
-    private Long pedidoId;
+    private String pedidoId;
     private LocalDateTime authorizedAt;
 }
