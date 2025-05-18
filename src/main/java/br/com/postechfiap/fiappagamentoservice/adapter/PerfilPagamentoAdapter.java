@@ -8,6 +8,8 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class PerfilPagamentoAdapter extends AbstractAdapter<PerfilPagamentoRequest, PerfilPagamento> {
 
@@ -36,10 +38,9 @@ public class PerfilPagamentoAdapter extends AbstractAdapter<PerfilPagamentoReque
     private Converter<String, String> toPrimeirosNumero() {
         return context -> {
             String numeroCartao = context.getSource();
-            if (numeroCartao != null) {
-                return numeroCartao.substring(0, 4);
-            }
-            return null;
+            return Optional.ofNullable(numeroCartao)
+                    .map(nc -> nc.substring(0, 4))
+                    .orElse(null);
         };
     }
 
@@ -47,10 +48,9 @@ public class PerfilPagamentoAdapter extends AbstractAdapter<PerfilPagamentoReque
     private Converter<String, String> toUltimosNumeros() {
         return context -> {
             String numeroCartao = context.getSource();
-            if (numeroCartao != null) {
-                return numeroCartao.substring(numeroCartao.length() - 4);
-            }
-            return null;
+            return Optional.ofNullable(numeroCartao)
+                    .map(nc -> nc.substring(nc.length() - 4))
+                    .orElse(null);
         };
     }
 }

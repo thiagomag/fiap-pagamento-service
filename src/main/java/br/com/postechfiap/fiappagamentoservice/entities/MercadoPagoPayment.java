@@ -45,6 +45,6 @@ public class MercadoPagoPayment extends BaseEntity<Long> {
 
     @Override
     public Long getId() {
-        return 0L;
+        return this.id;
     }
 }

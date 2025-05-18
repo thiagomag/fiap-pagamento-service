@@ -101,6 +101,7 @@ public class MercadoPagoCreatePaymentUseCaseImplTest {
                 .thenAnswer(invocationOnMock -> {
                     final var savedPayment = invocationOnMock.getArgument(0, MercadoPagoPayment.class);
                     assertEquals(mercadoPagoPaymentResponse.getStatus(), savedPayment.getStatus());
+                    assertEquals(23711752715L, savedPayment.getId());
                     return savedPayment;
                 });
 

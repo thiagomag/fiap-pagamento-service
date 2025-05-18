@@ -4,7 +4,6 @@ import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PagamentoR
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PerfilPagamentoRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -28,8 +27,69 @@ public class PagamentoControllerIT {
     @LocalServerPort
     private int port;
 
-    @BeforeEach
-    public void setup() {
+    @Test
+    void deveCriarPagamentoComSucesso() {
+        // Cenário
+        final var wiremock = wireMockClienteClient();
+
+        final var pagamentoRequest = PagamentoRequest.builder()
+                .idCliente(1L)
+                .idPedido(UUID.randomUUID())
+                .skuProduto("SKU123")
+                .valor(BigDecimal.TEN)
+                .perfilPagamento(PerfilPagamentoRequest.builder()
+                        .numeroCartao("1234567890123456")
+                        .dataValidade(LocalDate.now())
+                        .nomeTitularCartao("APRO")
+                        .codigoSegurancaCartao("123")
+                        .build())
+                .build();
+
+        // Ação
+        RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(pagamentoRequest)
+                .when()
+                .post("/pagamentos/compra")
+                .then()
+                .statusCode(200);
+
+        wiremock.stop();
+    }
+
+    @Test
+    void deveCriarPagamentoComErro() {
+        // Cenário
+        final var wiremock = wireMockClienteClient();
+
+        final var pagamentoRequest = PagamentoRequest.builder()
+                .idCliente(1L)
+                .idPedido(UUID.randomUUID())
+                .skuProduto("SKU123")
+                .valor(BigDecimal.TEN)
+                .perfilPagamento(PerfilPagamentoRequest.builder()
+                        .numeroCartao("1234567890123456")
+                        .dataValidade(LocalDate.now())
+                        .nomeTitularCartao("OTHE")
+                        .codigoSegurancaCartao("123")
+                        .build())
+                .build();
+
+        // Ação
+        RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(pagamentoRequest)
+                .when()
+                .post("/pagamentos/compra")
+                .then()
+                .statusCode(400)
+                .assertThat()
+                .onFailMessage("Pagamento com o id 4 rejeitado: FALHA");
+
+        wiremock.stop();
+    }
+
+    private WireMockServer wireMockClienteClient() {
         RestAssured.port = port;
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         final var wireMockServer = new WireMockServer(8081);
@@ -73,59 +133,7 @@ public class PagamentoControllerIT {
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(clienteResponse)));
-    }
 
-    @Test
-    void deveCriarPagamentoComSucesso() {
-        // Cenário
-        final var pagamentoRequest = PagamentoRequest.builder()
-                .idCliente(1L)
-                .idPedido(UUID.randomUUID())
-                .skuProduto("SKU123")
-                .valor(BigDecimal.TEN)
-                .perfilPagamento(PerfilPagamentoRequest.builder()
-                        .numeroCartao("1234567890123456")
-                        .dataValidade(LocalDate.now())
-                        .nomeTitularCartao("APRO")
-                        .codigoSegurancaCartao("123")
-                        .build())
-                .build();
-
-        // Ação
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(pagamentoRequest)
-                .when()
-                .post("/pagamentos/compra")
-                .then()
-                .statusCode(200);
-    }
-
-    @Test
-    void deveCriarPagamentoComErro() {
-        // Cenário
-        final var pagamentoRequest = PagamentoRequest.builder()
-                .idCliente(1L)
-                .idPedido(UUID.randomUUID())
-                .skuProduto("SKU123")
-                .valor(BigDecimal.TEN)
-                .perfilPagamento(PerfilPagamentoRequest.builder()
-                        .numeroCartao("1234567890123456")
-                        .dataValidade(LocalDate.now())
-                        .nomeTitularCartao("OTHE")
-                        .codigoSegurancaCartao("123")
-                        .build())
-                .build();
-
-        // Ação
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(pagamentoRequest)
-                .when()
-                .post("/pagamentos/compra")
-                .then()
-                .statusCode(400)
-                .assertThat()
-                .onFailMessage("Pagamento com o id 4 rejeitado: FALHA");
+        return wireMockServer;
     }
 }
