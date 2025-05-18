@@ -1,4 +1,4 @@
-package br.com.postechfiap.fiappagamentoservice.adapters;
+package br.com.postechfiap.fiappagamentoservice.adapter;
 
 import br.com.postechfiap.fiappagamentoservice.controller.dto.request.PerfilPagamentoRequest;
 import br.com.postechfiap.fiappagamentoservice.entities.PerfilPagamento;

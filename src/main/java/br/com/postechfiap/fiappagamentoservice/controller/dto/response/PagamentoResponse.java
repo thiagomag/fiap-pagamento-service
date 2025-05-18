@@ -1,5 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.controller.dto.response;
 
+import br.com.postechfiap.fiappagamentoservice.enuns.StatusPagamentoEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -21,7 +22,7 @@ public class PagamentoResponse {
 
     private Long id;
     private BigDecimal valor;
-    private String status;
+    private StatusPagamentoEnum status;
     private Long clienteId;
     private String pedidoId;
     private LocalDateTime authorizedAt;

@@ -1,7 +1,7 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago;
 
-import br.com.postechfiap.fiappagamentoservice.adapters.MercadoPagoCreatePaymentRequestCustomAdapter;
-import br.com.postechfiap.fiappagamentoservice.adapters.MercadoPagoPaymentCustomAdapter;
+import br.com.postechfiap.fiappagamentoservice.adapter.MercadoPagoCreatePaymentRequestCustomAdapter;
+import br.com.postechfiap.fiappagamentoservice.adapter.MercadoPagoPaymentCustomAdapter;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.MercadoPagoClient;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoPaymentRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.MercadoPagoCreatePaymentUseCase;

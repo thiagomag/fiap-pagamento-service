@@ -1,6 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago;
 
-import br.com.postechfiap.fiappagamentoservice.adapters.MercadoPagoCustomerAdapter;
+import br.com.postechfiap.fiappagamentoservice.adapter.MercadoPagoCustomerAdapter;
 import br.com.postechfiap.fiappagamentoservice.client.clienteService.dto.ClienteResponse;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.MercadoPagoClient;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoCreateCustomerRequest;
@@ -11,10 +11,8 @@ import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCustomer;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoCustomerRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarOuAtualizarClienteUseCase;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CriarOuAtualizarClienteUseCaseImpl implements CriarOuAtualizarClienteUseCase {

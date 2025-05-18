@@ -79,7 +79,7 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
                                 .type("CPF")
                                 .number("12345678900")
                                 .build())
-                        .name("JOHN DOE")
+                        .name(req.getCardHolderName())
                         .build())
                 .paymentMethod(MercadoPagoPaymentMethodResponse.builder()
                         .id("master")
@@ -112,16 +112,30 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
 
     @Override
     public MercadoPagoPaymentResponse createPayment(MercadoPagoCreatePaymentRequest req, UUID idempotencyId) {
+        String status;
+        String statusDetail;
+        OffsetDateTime dateApproved;
+
+        if (req.getCardHolderName().equals("APRO")) {
+            status = "approved";
+            statusDetail = "accredited";
+            dateApproved = OffsetDateTime.now();
+        } else {
+            status = "rejected";
+            statusDetail = "cc_rejected_bad_filled_security_code";
+            dateApproved = null;
+        }
+
         return MercadoPagoPaymentResponse.builder()
                 .id(23711752715L)
-                .dateCreated(OffsetDateTime.parse("2022-07-04T16:05:59.000-04:00"))
-                .dateApproved(OffsetDateTime.parse("2022-07-04T16:05:59.000-04:00"))
-                .dateLastUpdated(OffsetDateTime.parse("2022-07-04T16:05:59.000-04:00"))
+                .dateCreated(OffsetDateTime.now())
+                .dateApproved(dateApproved)
+                .dateLastUpdated(OffsetDateTime.now())
                 .operationType("recurring_payment")
                 .paymentMethodId("master")
                 .paymentTypeId("credit_card")
-                .status("approved")
-                .statusDetail("accredited")
+                .status(status)
+                .statusDetail(statusDetail)
                 .description(req.getDescription())
                 .authorizationCode("301299")
                 .taxesAmount(BigDecimal.ZERO)
@@ -149,7 +163,7 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
                         .expirationMonth(11)
                         .expirationYear(2025)
                         .cardholder(MercadoPagoCardHolderResponse.builder()
-                                .name("APRO")
+                                .name(req.getCardHolderName())
                                 .identification(MercadoPagoIdentificationResponse.builder()
                                         .type("CPF")
                                         .number("1234567890")

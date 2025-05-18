@@ -1,4 +1,4 @@
-package br.com.postechfiap.fiappagamentoservice.adapters;
+package br.com.postechfiap.fiappagamentoservice.adapter;
 
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoCreatePaymentRequest;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.request.MercadoPagoIdentificationRequest;
@@ -15,13 +15,13 @@ public class MercadoPagoCreatePaymentRequestCustomAdapter implements CustomAdapt
 
     @Override
     public MercadoPagoCreatePaymentRequest adapt(PagamentoContext pagamentoContext) {
-        final var paymentRequest = pagamentoContext.getPagamentoRequest();
+        final var pagamentoRequest = pagamentoContext.getPagamentoRequest();
         final var mercadopagoCard = pagamentoContext.getMercadoPagoCard();
         final var clienteResponse = pagamentoContext.getClienteResponse();
         final var mercadoPagoCustomer = pagamentoContext.getMercadoPagoCustomer();
 
         return MercadoPagoCreatePaymentRequest.builder()
-                .transactionAmount(paymentRequest.getValor())
+                .transactionAmount(pagamentoRequest.getValor())
                 .token(mercadopagoCard.getToken())
                 .payer(MercadoPagoPayerRequest.builder()
                         .id(mercadoPagoCustomer.getMercadoPagoCustomerId())
@@ -33,11 +33,12 @@ public class MercadoPagoCreatePaymentRequestCustomAdapter implements CustomAdapt
                                 .number(clienteResponse.getCpf())
                                 .build())
                         .build())
-                .externalReference(paymentRequest.getSkuProduto())
+                .externalReference(pagamentoRequest.getSkuProduto())
                 .installments(1)
                 .binaryMode(true)
-                .metadata(Map.of("produto_id", paymentRequest.getSkuProduto(),
-                        "pedido_id", paymentRequest.getIdPedido().toString(), "cliente_id", paymentRequest.getIdCliente()))
+                .metadata(Map.of("produto_id", pagamentoRequest.getSkuProduto(),
+                        "pedido_id", pagamentoRequest.getIdPedido().toString(), "cliente_id", pagamentoRequest.getIdCliente()))
+                .cardHolderName(mercadopagoCard.getCardholderName())
                 .build();
     }
 }

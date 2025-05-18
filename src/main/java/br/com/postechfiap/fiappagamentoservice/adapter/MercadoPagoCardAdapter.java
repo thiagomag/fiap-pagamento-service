@@ -1,4 +1,4 @@
-package br.com.postechfiap.fiappagamentoservice.adapters;
+package br.com.postechfiap.fiappagamentoservice.adapter;
 
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response.MercadoPagoCardHolderResponse;
 import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response.MercadoPagoCardResponse;

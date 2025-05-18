@@ -1,4 +1,4 @@
-package br.com.postechfiap.fiappagamentoservice.adapters;
+package br.com.postechfiap.fiappagamentoservice.adapter;
 
 import br.com.postechfiap.fiappagamentoservice.controller.dto.response.PagamentoResponse;
 import br.com.postechfiap.fiappagamentoservice.interfaces.CustomAdapter;
@@ -14,7 +14,7 @@ public class PagamentoResponseCustomAdapter implements CustomAdapter<PagamentoCo
 
         return PagamentoResponse.builder()
                 .authorizedAt(pagamento.getAuthorizedAt())
-                .status(pagamento.getStatus().getDescricao())
+                .status(pagamento.getStatus())
                 .id(pagamento.getId())
                 .clienteId(pagamento.getClienteId())
                 .valor(pagamento.getValor())

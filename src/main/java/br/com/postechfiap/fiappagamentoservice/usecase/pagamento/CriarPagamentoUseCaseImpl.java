@@ -8,6 +8,7 @@ import br.com.postechfiap.fiappagamentoservice.entities.MercadoPagoCustomer;
 import br.com.postechfiap.fiappagamentoservice.entities.Pagamento;
 import br.com.postechfiap.fiappagamentoservice.enuns.MetodoPagamentoEnum;
 import br.com.postechfiap.fiappagamentoservice.enuns.StatusPagamentoEnum;
+import br.com.postechfiap.fiappagamentoservice.exception.PagamentoRejeitadoException;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.PagamentoRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.*;
 import br.com.postechfiap.fiappagamentoservice.usecase.mercadoPago.dto.PagamentoContext;
@@ -33,7 +34,12 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
         final var pagamento = criarESalvarPagamento(pagamentoContext);
         pagamentoContext.setPagamento(pagamento);
         pagamentoContext = mercadoPagoCreatePaymentUseCase.execute(pagamentoContext);
-        return atualizarPagamentoUseCase.execute(pagamentoContext);
+        final var pagamentoResponse = atualizarPagamentoUseCase.execute(pagamentoContext);
+        if (pagamentoResponse.getStatus().equals(StatusPagamentoEnum.SUCESSO)) {
+            return pagamentoResponse;
+        } else {
+            throw new PagamentoRejeitadoException("Pagamento com o id %s rejeitado: %s".formatted(pagamento.getId(), pagamentoResponse.getStatus()));
+        }
     }
 
     private PagamentoContext buildaPagamentoContext(PagamentoRequest pagamentoRequest, ClienteResponse customerResponse, MercadoPagoCustomer mercadoPagoCustomer) {

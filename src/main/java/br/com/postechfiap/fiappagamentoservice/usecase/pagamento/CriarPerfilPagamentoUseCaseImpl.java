@@ -1,7 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.pagamento;
 
-import br.com.postechfiap.fiappagamentoservice.adapters.PerfilPagamentoAdapter;
-import br.com.postechfiap.fiappagamentoservice.interfaces.repository.MercadoPagoCardRepository;
+import br.com.postechfiap.fiappagamentoservice.adapter.PerfilPagamentoAdapter;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.PerfilPagamentoRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarMercadoPagoCardUseCase;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.CriarPerfilPagamentoUseCase;
@@ -14,14 +13,13 @@ import org.springframework.stereotype.Service;
 public class CriarPerfilPagamentoUseCaseImpl implements CriarPerfilPagamentoUseCase {
 
     private final PerfilPagamentoRepository perfilCPagamentoRepository;
-    private final PerfilPagamentoAdapter perfilCPagamentoAdapter;
+    private final PerfilPagamentoAdapter perfilPagamentoAdapter;
     private final CriarMercadoPagoCardUseCase criarMercadoPagoCardUseCase;
-    private final MercadoPagoCardRepository mercadoPagoCardRepository;
 
     @Override
     public PagamentoContext execute(PagamentoContext pagamentoContext) {
         final var perfilPagamentoRequest = pagamentoContext.getPerfilPagamentoRequest();
-        final var perfilCPagamento = perfilCPagamentoRepository.save(perfilCPagamentoAdapter.adapt(perfilPagamentoRequest));
+        final var perfilCPagamento = perfilCPagamentoRepository.save(perfilPagamentoAdapter.adapt(perfilPagamentoRequest));
         pagamentoContext.setPerfilPagamento(perfilCPagamento);
         final var mercadoPagoCard = criarMercadoPagoCardUseCase.execute(pagamentoContext);
         pagamentoContext.setMercadoPagoCard(mercadoPagoCard);

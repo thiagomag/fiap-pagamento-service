@@ -1,6 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.pagamento;
 
-import br.com.postechfiap.fiappagamentoservice.adapters.PagamentoResponseCustomAdapter;
+import br.com.postechfiap.fiappagamentoservice.adapter.PagamentoResponseCustomAdapter;
 import br.com.postechfiap.fiappagamentoservice.controller.dto.response.PagamentoResponse;
 import br.com.postechfiap.fiappagamentoservice.entities.Pagamento;
 import br.com.postechfiap.fiappagamentoservice.enuns.StatusPagamentoEnum;
