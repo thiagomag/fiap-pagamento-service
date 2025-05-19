@@ -29,17 +29,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<ResponseError> handleConflictException(ConflictException ex) {
-        ResponseError errorResponse = new ResponseError(
-                HttpStatus.CONFLICT.value(),
-                "Conflict Error",
-                List.of(ex.getMessage())
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseError> handleIllegalArgumentException(IllegalArgumentException ex) {
         ResponseError errorResponse = new ResponseError(

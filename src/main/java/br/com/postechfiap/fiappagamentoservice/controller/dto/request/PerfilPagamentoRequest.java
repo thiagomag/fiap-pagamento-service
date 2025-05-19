@@ -1,10 +1,13 @@
 package br.com.postechfiap.fiappagamentoservice.controller.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.data.annotation.Transient;
+
 
 import java.time.LocalDate;
 
@@ -28,4 +31,8 @@ public class PerfilPagamentoRequest {
     private String nomeTitularCartao;
     @Schema(description = "Data de validade do cartão", example = "2023-12-31")
     private LocalDate dataValidade;
+
+    @Transient
+    @JsonIgnore
+    private Long idCliente;
 }

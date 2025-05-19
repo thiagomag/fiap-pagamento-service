@@ -20,7 +20,6 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MercadoPagoCreatePaymentRequest {
 
-    private MercadoPagoPaymentAdditionalInfoRequest additionalInfo;
     private Boolean binaryMode;
     private Long campaignId;
     private Boolean capture;

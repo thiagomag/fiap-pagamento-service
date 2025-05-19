@@ -6,8 +6,6 @@ import br.com.postechfiap.fiappagamentoservice.client.mercadopago.dto.response.*
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.time.OffsetDateTime;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -38,11 +36,6 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
     }
 
     @Override
-    public MercadoPagoCustomerResponse getCustomer(String customerId) {
-        return createCustomer(null);
-    }
-
-    @Override
     public MercadoPagoCustomerResponse updateCustomer(String customerId, MercadoPagoUpdateCustomerRequest req) {
         return MercadoPagoCustomerResponse.builder()
                 .id(customerId)
@@ -59,11 +52,6 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
                         .zipCode(req.getAddress().getZipCode())
                         .build())
                 .build();
-    }
-
-    @Override
-    public MercadoPagoCustomerResponse deleteCustomer(String customerId) {
-        return createCustomer(null);
     }
 
     @Override
@@ -91,23 +79,10 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
     }
 
     @Override
-    public MercadoPagoCardResponse getCard(String customerId, String cardId) {
-        return createCard(customerId, null);
-    }
-
-    @Override
     public MercadoPagoCardResponse deleteCard(String customerId, String cardId) {
-        return createCard(customerId, null);
-    }
-
-    @Override
-    public List<MercadoPagoCardResponse> getCards(String customerId) {
-        return Collections.singletonList(createCard(customerId, null));
-    }
-
-    @Override
-    public MercadoPagoCardResponse updateCard(String customerId, String cardId, MercadoPagoCreateCardRequest req) {
-        return createCard(customerId, req);
+        return createCard(customerId, MercadoPagoCreateCardRequest.builder()
+                .cardHolderName("APRO")
+                .build());
     }
 
     @Override
@@ -174,31 +149,6 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
     }
 
     @Override
-    public MercadoPagoPaymentResponse getPayment(String paymentId) {
-        return createPayment(null, null);
-    }
-
-    @Override
-    public MercadoPagoPaymentResponse updatePayment(String paymentId, MercadoPagoUpdatePaymentRequest req) {
-        return createPayment(null, null);
-    }
-
-    @Override
-    public MercadoPagoRefundResponse refundPayment(String paymentId, MercadoPagoRefundRequest req) {
-        return MercadoPagoRefundResponse.builder().build();
-    }
-
-    @Override
-    public List<MercadoPagoRefundResponse> getRefunds(String paymentId) {
-        return Collections.singletonList(refundPayment(paymentId, null));
-    }
-
-    @Override
-    public MercadoPagoRefundResponse getRefund(String paymentId, String refundId) {
-        return refundPayment(paymentId, null);
-    }
-
-    @Override
     public MercadoPagoCardTokenResponse generateCardToken(MercadoPagoCreateCardTokenRequest req, String publicKey) {
         return MercadoPagoCardTokenResponse.builder()
                 .id(generateCardToken())
@@ -220,7 +170,7 @@ public class MercadoPagoClientMock implements MercadoPagoClient {
             randomPart.append(CHARACTERS.charAt(index));
         }
 
-        return timestamp + "-" + randomPart.toString();
+        return timestamp + "-" + randomPart;
     }
 
     public static String generateCardToken() {
