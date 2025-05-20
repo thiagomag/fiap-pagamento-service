@@ -123,4 +123,127 @@ public class CriarMercadoPagoCardUseCaseImplTest {
 
         verifyNoInteractions(mercadoPagoClient, mercadoPagoCardAdapter, mercadoPagoCardRepository);
     }
+
+    @Test
+    public void criarMercadoPagoCardDeveRetornarErro2() {
+        //given
+        final var perfilPagamentoRequest = PerfilPagamentoRequest.builder()
+                .numeroCartao(null)
+                .dataValidade(LocalDate.of(2030, 12, 31))
+                .nomeTitularCartao("Nome Teste")
+                .codigoSegurancaCartao("123")
+                .build();
+        final var mercadoPagoCustomer = new MercadoPagoCustomer();
+        final var clienteResponse = ClienteResponse.builder()
+                .id(1L)
+                .nome("Nome Teste")
+                .cpf("12345678901")
+                .enderecos(null)
+                .build();
+        final var pagamentoContext = PagamentoContext.builder()
+                .perfilPagamentoRequest(perfilPagamentoRequest)
+                .mercadoPagoCustomer(mercadoPagoCustomer)
+                .clienteResponse(clienteResponse)
+                .build();
+
+        //when
+        //then
+        assertThatThrownBy(() -> criarMercadoPagoCardUseCase.execute(pagamentoContext))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Número do cartão não pode ser nulo ou vazio");
+
+        verifyNoInteractions(mercadoPagoClient, mercadoPagoCardAdapter, mercadoPagoCardRepository);
+    }
+
+    @Test
+    public void criarMercadoPagoCardDeveRetornarErro3() {
+        //given
+        final var perfilPagamentoRequest = PerfilPagamentoRequest.builder()
+                .numeroCartao("1234567890123456")
+                .nomeTitularCartao("Nome Teste")
+                .codigoSegurancaCartao("123")
+                .build();
+        final var mercadoPagoCustomer = new MercadoPagoCustomer();
+        final var clienteResponse = ClienteResponse.builder()
+                .id(1L)
+                .nome("Nome Teste")
+                .cpf("12345678901")
+                .enderecos(null)
+                .build();
+        final var pagamentoContext = PagamentoContext.builder()
+                .perfilPagamentoRequest(perfilPagamentoRequest)
+                .mercadoPagoCustomer(mercadoPagoCustomer)
+                .clienteResponse(clienteResponse)
+                .build();
+
+        //when
+        //then
+        assertThatThrownBy(() -> criarMercadoPagoCardUseCase.execute(pagamentoContext))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Data de validade não pode ser nula");
+
+        verifyNoInteractions(mercadoPagoClient, mercadoPagoCardAdapter, mercadoPagoCardRepository);
+    }
+
+    @Test
+    public void criarMercadoPagoCardDeveRetornarErro4() {
+        //given
+        final var perfilPagamentoRequest = PerfilPagamentoRequest.builder()
+                .numeroCartao("")
+                .dataValidade(LocalDate.of(2030, 12, 31))
+                .nomeTitularCartao("Nome Teste")
+                .codigoSegurancaCartao("123")
+                .build();
+        final var mercadoPagoCustomer = new MercadoPagoCustomer();
+        final var clienteResponse = ClienteResponse.builder()
+                .id(1L)
+                .nome("Nome Teste")
+                .cpf("12345678901")
+                .enderecos(null)
+                .build();
+        final var pagamentoContext = PagamentoContext.builder()
+                .perfilPagamentoRequest(perfilPagamentoRequest)
+                .mercadoPagoCustomer(mercadoPagoCustomer)
+                .clienteResponse(clienteResponse)
+                .build();
+
+        //when
+        //then
+        assertThatThrownBy(() -> criarMercadoPagoCardUseCase.execute(pagamentoContext))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Número do cartão não pode ser nulo ou vazio");
+
+        verifyNoInteractions(mercadoPagoClient, mercadoPagoCardAdapter, mercadoPagoCardRepository);
+    }
+
+    @Test
+    public void criarMercadoPagoCardDeveRetornarErro5() {
+        //given
+        final var perfilPagamentoRequest = PerfilPagamentoRequest.builder()
+                .numeroCartao("1234567890123456")
+                .dataValidade(LocalDate.of(2030, 12, 31))
+                .nomeTitularCartao("Nome Teste")
+                .codigoSegurancaCartao("")
+                .build();
+        final var mercadoPagoCustomer = new MercadoPagoCustomer();
+        final var clienteResponse = ClienteResponse.builder()
+                .id(1L)
+                .nome("Nome Teste")
+                .cpf("12345678901")
+                .enderecos(null)
+                .build();
+        final var pagamentoContext = PagamentoContext.builder()
+                .perfilPagamentoRequest(perfilPagamentoRequest)
+                .mercadoPagoCustomer(mercadoPagoCustomer)
+                .clienteResponse(clienteResponse)
+                .build();
+
+        //when
+        //then
+        assertThatThrownBy(() -> criarMercadoPagoCardUseCase.execute(pagamentoContext))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Código de segurança não pode ser nulo ou vazio");
+
+        verifyNoInteractions(mercadoPagoClient, mercadoPagoCardAdapter, mercadoPagoCardRepository);
+    }
 }

@@ -32,8 +32,6 @@ public class AtualizarPagamentoUseCaseImpl implements AtualizarPagamentoUseCase 
             pagamento.setStatus(StatusPagamentoEnum.FALHA);
         } else if ("approved".equalsIgnoreCase(mercadoPagoPayment.getStatus())) {
             pagamento.setStatus(StatusPagamentoEnum.SUCESSO);
-        } else if ("pending".equalsIgnoreCase(mercadoPagoPayment.getStatus())) {
-            pagamento.setStatus(StatusPagamentoEnum.PENDENTE);
         }
         pagamento.setMercadoPagoPayment(mercadoPagoPayment);
         pagamento.setAuthorizedAt(mercadoPagoPayment.getAuthorizedAt());

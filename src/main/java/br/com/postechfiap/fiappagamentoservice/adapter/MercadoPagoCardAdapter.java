@@ -20,7 +20,6 @@ public class MercadoPagoCardAdapter extends AbstractAdapter<MercadoPagoCardRespo
 
     @Override
     protected ModelMapper getModelMapper() {
-        if (this.modelMapper == null) {
             this.modelMapper = super.getModelMapper();
 
             this.modelMapper.typeMap(MercadoPagoCardResponse.class, MercadoPagoCard.class)
@@ -33,7 +32,6 @@ public class MercadoPagoCardAdapter extends AbstractAdapter<MercadoPagoCardRespo
                         mapping.using(toCardHolderName()).map(MercadoPagoCardResponse::getCardholder, MercadoPagoCard::setCardholderName);
                         mapping.using(toMercadoPagoPaymentMethod()).map(MercadoPagoCardResponse::getPaymentMethod, MercadoPagoCard::setMercadoPagoPaymentMethod);
                     });
-        }
 
         return this.modelMapper;
     }

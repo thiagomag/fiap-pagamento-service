@@ -85,16 +85,7 @@ public class CriarOuAtualizarClienteUseCaseImpl implements CriarOuAtualizarClien
 
     private static String getSobreNome(ClienteResponse clienteResponse) {
         final var nome = clienteResponse.getNome();
-        if (nome == null || nome.trim().isEmpty()) {
-            return "";
-        }
-
         final var partes = nome.trim().split("\\s+");
-
-        if (partes.length == 1) {
-            return "";
-        }
-
         return partes[partes.length - 1];
     }
 }

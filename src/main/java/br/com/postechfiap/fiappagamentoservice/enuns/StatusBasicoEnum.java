@@ -13,12 +13,4 @@ public enum StatusBasicoEnum implements EnumSerializable {
 
     private final String value;
 
-    public static StatusBasicoEnum fromValue(String value) {
-        for (StatusBasicoEnum status : StatusBasicoEnum.values()) {
-            if (status.getValue().equals(value)) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException("Valor inválido: " + value);
-    }
 }

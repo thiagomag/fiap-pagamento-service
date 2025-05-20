@@ -23,14 +23,16 @@ public class CartaoController {
     private final ListarCartoesClienteUseCase listarCartoesClienteUseCase;
     private final DeletarCartaoClienteUseCase deletarCartaoClienteUseCase;
 
-    @PostMapping("/adicionar")
-    public ResponseEntity<PerfilPagamentoResponse> adicionarCartao(@RequestBody PerfilPagamentoRequest cartaoRequest) {
+    @PostMapping("/adicionar/{clienteId}")
+    public ResponseEntity<PerfilPagamentoResponse> adicionarCartao(@PathVariable Long clienteId,
+                                                                   @RequestBody PerfilPagamentoRequest cartaoRequest) {
+        cartaoRequest.setIdCliente(clienteId);
         return ResponseEntity.status(HttpStatus.CREATED).body(adicionarCartaoUseCase.execute(cartaoRequest));
     }
 
-    @GetMapping("/listar/{customerId}")
-    public ResponseEntity<List<PerfilPagamentoResponse>> listarCartoes(@PathVariable Long customerId) {
-        return ResponseEntity.ok(listarCartoesClienteUseCase.execute(customerId));
+    @GetMapping("/listar/{clienteId}")
+    public ResponseEntity<List<PerfilPagamentoResponse>> listarCartoes(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(listarCartoesClienteUseCase.execute(clienteId));
     }
 
     @DeleteMapping("/deletar/{perfilPagamentoId}")

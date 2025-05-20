@@ -19,7 +19,6 @@ public class PerfilPagamentoAdapter extends AbstractAdapter<PerfilPagamentoReque
 
     @Override
     protected ModelMapper getModelMapper() {
-        if (this.modelMapper == null) {
             this.modelMapper = super.getModelMapper();
 
             this.modelMapper.typeMap(PerfilPagamentoRequest.class, PerfilPagamento.class)
@@ -30,7 +29,6 @@ public class PerfilPagamentoAdapter extends AbstractAdapter<PerfilPagamentoReque
                         mapping.using(toUltimosNumeros()).map(PerfilPagamentoRequest::getNumeroCartao, PerfilPagamento::setUltimosNumerosCartao);
                         mapping.map(perfilPagamentoRequest -> StatusBasicoEnum.ATIVO, PerfilPagamento::setStatus);
                     });
-        }
 
         return this.modelMapper;
     }

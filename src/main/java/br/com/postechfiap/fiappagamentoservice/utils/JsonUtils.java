@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -17,34 +15,6 @@ public class JsonUtils {
 
     private final ObjectMapper objectMapper;
 
-    public <T> T readValueOrNull(String jsonBody, Class<T> clazz) {
-        try {
-            return objectMapper.readValue( jsonBody, clazz );
-        } catch (JsonProcessingException e) {
-            log.error( LOG_PREFIX + " " + e.getMessage(), e );
-        }
-        return null;
-    }
-
-    public <T> List<T> readValueOrNullForList(String jsonBody, Class<T> clazz) {
-        try {
-            final var objectReader = objectMapper.readerForListOf(clazz);
-            return objectReader.readValue(jsonBody);
-        } catch (JsonProcessingException e) {
-            log.error( LOG_PREFIX + " " + e.getMessage(), e );
-        }
-        return null;
-    }
-
-    @SuppressWarnings("java:S112")
-    public <T> T readValueOrThrow(String jsonBody, Class<T> clazz) {
-        try {
-            return objectMapper.readValue( jsonBody, clazz );
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public String writeValueAsStringOrNull(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
@@ -52,15 +22,6 @@ public class JsonUtils {
             log.error( LOG_PREFIX + " " + e.getMessage(), e );
         }
         return null;
-    }
-
-    @SuppressWarnings("java:S112")
-    public String writeValueAsStringOrThrow(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

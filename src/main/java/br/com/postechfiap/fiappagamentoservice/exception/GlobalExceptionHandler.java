@@ -2,17 +2,11 @@ package br.com.postechfiap.fiappagamentoservice.exception;
 
 
 import br.com.postechfiap.fiappagamentoservice.dto.ResponseError;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,35 +32,6 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ResponseError> handleConstraintViolationException(ConstraintViolationException ex) {
-        List<String> messages = new ArrayList<>();
-        ex.getConstraintViolations().forEach(violation -> messages.add(violation.getMessage()));
-        ResponseError errorResponse = new ResponseError(
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                messages
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        List<String> messages = new ArrayList<>();
-        BindingResult bindingResult = ex.getBindingResult();
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            messages.add(fieldError.getDefaultMessage());
-        }
-        ResponseError errorResponse = new ResponseError(
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                messages
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseError> handleGenericException(Exception ex) {

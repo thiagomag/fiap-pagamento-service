@@ -1,5 +1,6 @@
 package br.com.postechfiap.fiappagamentoservice.usecase.cartao;
 
+import br.com.postechfiap.fiappagamentoservice.exception.EntityNotFoundException;
 import br.com.postechfiap.fiappagamentoservice.interfaces.repository.PerfilPagamentoRepository;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.DeletarCartaoClienteUseCase;
 import br.com.postechfiap.fiappagamentoservice.interfaces.usecases.DeletarMercadoPagoCardUseCase;
@@ -16,7 +17,7 @@ public class DeletarCartaoClienteUseCaseImpl implements DeletarCartaoClienteUseC
     @Override
     public Void execute(Long perfilPagamentoId) {
         final var perfilPagamento = perfilPagamentoRepository.findById(perfilPagamentoId)
-                .orElseThrow(() -> new IllegalArgumentException("Perfil de pagamento não encontrado: " + perfilPagamentoId));
+                .orElseThrow(() -> new EntityNotFoundException("perfil_pagamento", perfilPagamentoId.toString()));
         deletarMercadoPagoCardUseCase.execute(perfilPagamentoId);
         perfilPagamento.delete();
         perfilPagamentoRepository.save(perfilPagamento);

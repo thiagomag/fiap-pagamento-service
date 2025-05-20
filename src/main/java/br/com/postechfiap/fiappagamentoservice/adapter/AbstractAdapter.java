@@ -21,15 +21,12 @@ public abstract class AbstractAdapter<Source, Destination> implements Adapter<So
     }
 
     protected ModelMapper getModelMapper() {
-        if (this.modelMapper == null) {
             this.modelMapper = new ModelMapper();
             this.modelMapper.getConfiguration()
                     .setPropertyCondition(Conditions.isNotNull())
                     .setSkipNullEnabled(true)
                     .setAmbiguityIgnored(true)
                     .setMatchingStrategy(MatchingStrategies.STRICT);
-        }
-
         return this.modelMapper;
     }
 
